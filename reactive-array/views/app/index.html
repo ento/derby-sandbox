@@ -1,0 +1,61 @@
+<!--
+  Derby templates are similar to Mustache, except that they are first
+  parsed as HTML, and there are a few extensions to make them work directly
+  with models. A single HTML template defines the HTML output, the event
+  handlers that update the model after user interaction, and the event handlers
+  that update the DOM when the model changes.
+
+  As in Mustache, double and triple curly braces output a value literally.
+  Derby templates add double and triple parentheses, which output a value
+  and set up model <- -> view bindings for that object.
+
+  Elements that end in colon define template names. Pre-defined templates
+  are capitalized by convention, but template names are case-insensitive.
+  Pre-defined templates are automatically included when the page is rendered.
+-->
+
+<Title:>
+  Reactive Array Test
+
+<Body:>
+  <h1>Reactive Array Test</h1>
+  <h2>src/app/index.coffee</h2>
+  <pre>
+model.setNull 'num_list', [{n: 1}, {n: 2}]<br>
+model.fn '_reactive_list', 'num_list', (num_list) -><br>
+&nbsp;&nbsp;({n: item.n * 2} for item in num_list)<br>
+model.fn '_reactive_num', 'num_list', (num_list) -><br>
+&nbsp;&nbsp;sum = 0<br>
+&nbsp;&nbsp;sum += item.n for item in num_list<br>
+&nbsp;&nbsp;sum
+  </pre>
+
+  <p>num_list: ((#num_list))((.n)), ((/))</p>
+  <p><label>push me: <input type="submit" value="increment each" x-bind="click: increment"></label></p>
+
+  <h2>views/app/index.html</h2>
+  <pre>
+  &lt;ul><br>
+    &#40;&#40;#_reactive_list))<br>
+    &nbsp;&nbsp;&lt;li>&#123;&#123;n}}&lt;/li><br>
+    &#40;&#40;/))<br>
+  &lt;/ul><br>
+  </pre>
+
+  <ul>
+    ((#_reactive_list))
+    <li>{{n}}</li>
+    ((/))
+  </ul>
+  <pre>
+    &#40;&#40;_reactive_list&#41;&#41;
+  </pre>
+  ((_reactive_list))
+
+  <pre>
+    &#40;&#40;_reactive_num&#41;&#41;
+  </pre>
+  ((_reactive_num))
+
+<num_item:>
+  <li>{{n}}</li>
