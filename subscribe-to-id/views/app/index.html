@@ -1,0 +1,42 @@
+<!--
+  Derby templates are similar to Handlebars, except that they are first
+  parsed as HTML, and there are a few extensions to make them work directly
+  with models. A single HTML template defines the HTML output, the event
+  handlers that update the model after user interaction, and the event handlers
+  that update the DOM when the model changes.
+
+  As in Handlebars, double and triple curly braces output a value literally.
+  Derby templates add double and triple parentheses, which output a value
+  and set up model <- -> view bindings for that object.
+
+  Elements that end in colon define template names. Pre-defined templates
+  are capitalized by convention, but template names are case-insensitive.
+  Pre-defined templates are automatically included when the page is rendered.
+-->
+
+<Title:>
+  {{roomName}}
+
+<Body:>
+  <p>
+    <form id="message-form" x-bind="submit:pushMessage">
+      <label>Add new message: <input id="new-message" value="((_newMessage))" autofocus></label>
+    </form>
+  </p>
+
+  <pre>
+    &#40;&#40;_room.messages&#41;&#41;
+  </pre>
+  <p>
+    ((_room.messages))
+  </p>
+  <pre>
+    &#40;&#40;#each _messages&#41;&#41;
+  </pre>
+  <p>
+    <ul>
+      ((#each _messages))
+      <li>{{.}}</li>
+      ((/))
+    </ul>
+  </p>
